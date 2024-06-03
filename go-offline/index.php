@@ -165,6 +165,50 @@ if (isset($_SESSION['admin'])) {
       border-radius: 50%;
       box-shadow: 1px -3px 10px rgba(0, 0, 0, 0.3);
     }
+
+    .something-went-wrong-popup{
+      position: fixed;
+      z-index: 40;
+      bottom: 0;
+      left: 0;
+      height: 100vh;
+      width: 100%;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .something-went-wrong-msg{
+      padding: 15px 30px 25px 20px;
+      border-radius: 10px;
+      background: #fff;
+    }
+    .something-went-wrong-msg h3{
+      color: red;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+    .something-went-wrong-msg span{
+      padding-left: 2px;
+      color: red;
+    }
+    .something-went-wrong-msg .close{
+      float: right;
+      margin-right: -22px;
+      margin-top: -6px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .form .pass-show-hide{
+      position: absolute;
+      right: 3rem;
+      margin-top: -2.8rem;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+    .form .pass-show-hide:hover{
+      color: gray;
+    }
   </style>
 </head>
 
@@ -184,7 +228,8 @@ if (isset($_SESSION['admin'])) {
       <form action="./" method="post">
         <h1>Admin</h1>
         <input type="text" name="user_id" placeholder="User ID" required autocomplete="off"> 
-        <input type="password" name="pass" placeholder="Password" required>
+        <input type="password" name="pass" id="pass" placeholder="Password" required autocomplete="off">
+        <i class="ri-eye-off-line pass-show-hide eye-closed"></i>
         <button type="submit" name="submit" value="submit">Login</button>
       </form>
     </div>
@@ -196,6 +241,8 @@ if (isset($_SESSION['admin'])) {
 
   <script>
     var toast = document.querySelector(".toast");
+    var passEye = document.querySelector(".pass-show-hide");
+    var pass = document.querySelector("#pass");
 
     function showLogoutSuccessToast() {
       toast.style.right = '2vw';
@@ -231,6 +278,21 @@ if (isset($_SESSION['admin'])) {
         toast.style.right = '-20vw';
       }, 2000);
     }
+
+    function hideErrorPopup(){
+      document.querySelector(".something-went-wrong-popup").style.display='none';
+    }
+
+    passEye.addEventListener('click', () => {
+      if(passEye.className == "ri-eye-off-line pass-show-hide eye-closed"){
+        pass.type = "text";
+        passEye.className = "ri-eye-fill pass-show-hide eye-open";
+      }else{
+        pass.type = "password";
+        passEye.className = "ri-eye-off-line pass-show-hide eye-closed";
+      }
+
+    })
   </script>
 
   <?php

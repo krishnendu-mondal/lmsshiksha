@@ -299,9 +299,9 @@ if (!isset($_SESSION["faculty"]) and (!isset($_GET['asmnt']) and !isset($_POST['
 
 <body>
     <nav>
-        <div class="logo"><a href="../../"><i class="ri-graduation-cap-fill"></i> Lmsshiksha</a></div>
+        <div class="logo"><a href="../"><i class="ri-graduation-cap-fill"></i> Lmsshiksha</a></div>
         <div class="links">
-            <a href="../assignment.php"><i class="ri-arrow-go-back-line"></i> Back</a>
+            <a href="assignment.php"><i class="ri-arrow-go-back-line"></i> Back</a>
         </div>
     </nav>
     <div class="container">
@@ -350,7 +350,7 @@ if (!isset($_SESSION["faculty"]) and (!isset($_GET['asmnt']) and !isset($_POST['
                                     <button type="button" onclick="downloadThisFile()"><i class="ri-download-line"></i>
                                         Download</button>
                                 </div>
-                                <form class="ass-grade" action="<?php $_SERVER['PHP_SELF'] ?>" method="get">
+                                <form class="ass-grade" action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
                                     <h3>Grade this submission</h3>
                                     <input type="hidden" name="student_roll" id="student-roll">
                                     <input type="hidden" name="asmnt" value="<?php echo $assignment_id ?>">
@@ -398,10 +398,10 @@ if (!isset($_SESSION["faculty"]) and (!isset($_GET['asmnt']) and !isset($_POST['
     </script>
 
     <?php
-    if (isset($_GET['save_grade'])) {
-        $sql = "UPDATE `assignment_submission` SET `grade`='{$_GET['grade']}', `status`='1' WHERE `ass_slno`='{$_GET['asmnt']}' and `student_roll`='{$_GET['student_roll']}'";
+    if (isset($_POST['save_grade'])) {
+        $sql = "UPDATE `assignment_submission` SET `grade`='{$_POST['grade']}', `status`='1' WHERE `ass_slno`='{$_POST['asmnt']}' and `student_roll`='{$_POST['student_roll']}'";
         $result = mysqli_query($conn, $sql) or die("Query Failed!");
-        echo "<script> window.location.href='./?asmnt=" . $assignment_id . "' </script>";
+        echo "<script> window.location.href='asmntshow.php?asmnt=" . $assignment_id . "' </script>";
     }
     ?>
 </body>

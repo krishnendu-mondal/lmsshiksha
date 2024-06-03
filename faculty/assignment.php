@@ -511,7 +511,7 @@ else{
                 ?>
 
                 <div class="flex" >
-                    <div class="assignment" id="<?php $num_of_sub!=$num_of_graded_sub? print'require-grading':print''?>" onclick="window.location.href='asmntshow.php/?asmnt=<?php echo $row['slno']?>'">
+                    <div class="assignment" id="<?php $num_of_sub!=$num_of_graded_sub? print'require-grading':print''?>" onclick="window.location.href='asmntshow.php?asmnt=<?php echo $row['slno']?>'">
                         <i class="ri-survey-line"></i>
                         <span  style="font-size:15px;"><?php echo $row['subject'] ?></span>
                     </div>

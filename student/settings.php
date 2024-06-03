@@ -481,6 +481,16 @@ if (!isset($_SESSION["student"])) {
             width: 75%;
         }
 
+        .popup5 .pass-show-hide1,.popup5 .pass-show-hide2{
+            margin-left: -2rem;
+            margin-bottom: -60px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .popup5 .pass-show-hide1:hover, .popup5 .pass-show-hide2:hover{
+            color: gray;
+        }
+
     </style>
 </head>
 
@@ -636,11 +646,13 @@ if (!isset($_SESSION["student"])) {
                 <div class="pos-sent">
                     <div class="grid eml">
                         <label>Old password</label>
-                        <input type="password" name="curr_password" placeholder="Old password" required>
+                        <input type="password" name="curr_password" id="pass1" placeholder="Old password" required autocomplete="off">
+                        <i class="ri-eye-off-line pass-show-hide1 eye-closed"></i>
                     </div>
                     <div class="grid eml">
                         <label>New password</label>
-                        <input type="password" name="new_password" placeholder="New password" required>
+                        <input type="password" name="new_password" id="pass2" placeholder="New password" required autocomplete="off">
+                        <i class="ri-eye-off-line pass-show-hide2 eye-closed"></i>
                     </div>
                 </div>
                 <div class="grid">
@@ -672,6 +684,10 @@ if (!isset($_SESSION["student"])) {
         var ep = document.querySelector('.popup5');
         var dp = document.querySelector('.delete-post');
         var pcp = document.querySelector('.pass-change-post');
+        var passEye1 = document.querySelector(".popup5 .pass-show-hide1");
+        var passEye2 = document.querySelector(".popup5 .pass-show-hide2");
+        var pass1 = document.querySelector(".popup5 #pass1");
+        var pass2 = document.querySelector(".popup5 #pass2");
         function show_delete_screen() {
             d.style.display = 'flex';
         }
@@ -701,6 +717,10 @@ if (!isset($_SESSION["student"])) {
         }
         function hide_change_password_screen() {
             ep.style.display = 'none';
+            pass1.type = "password";
+            passEye1.className = "ri-eye-off-line pass-show-hide1 eye-closed";
+            pass2.type = "password";
+            passEye2.className = "ri-eye-off-line pass-show-hide2 eye-closed";
         }
         function delete_post() {
             dp.submit();
@@ -708,6 +728,25 @@ if (!isset($_SESSION["student"])) {
         function pass_change_post() {
             pcp.submit();
         }
+
+        passEye1.addEventListener('click', () => {
+            if(passEye1.className == "ri-eye-off-line pass-show-hide1 eye-closed"){
+                pass1.type = "text";
+                passEye1.className = "ri-eye-fill pass-show-hide1 eye-open";
+            }else{
+                pass1.type = "password";
+                passEye1.className = "ri-eye-off-line pass-show-hide1 eye-closed";
+            }
+        })
+        passEye2.addEventListener('click', () => {
+            if(passEye2.className == "ri-eye-off-line pass-show-hide2 eye-closed"){
+                pass2.type = "text";
+                passEye2.className = "ri-eye-fill pass-show-hide2 eye-open";
+            }else{
+                pass2.type = "password";
+                passEye2.className = "ri-eye-off-line pass-show-hide2 eye-closed";
+            }
+        })
 
         var toast = document.querySelector(".toast");
 
