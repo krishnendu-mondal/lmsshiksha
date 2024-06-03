@@ -111,6 +111,7 @@ session_start();
     }
 
     .form {
+      position: relative;
       display: flex;
       background: white;
       height: 80%;
@@ -169,7 +170,7 @@ session_start();
       background-color: rgb(114, 195, 198);
     }
 
-    .login-popup i {
+    .login-popup .close {
       position: absolute;
       top: 5%;
       right: 5%;
@@ -181,7 +182,7 @@ session_start();
       color: #fff;
     }
 
-    .login-popup i:hover {
+    .login-popup .close:hover {
       color: #d3d3e8;
     }
 
@@ -310,6 +311,49 @@ session_start();
     .socials i:hover{
       background: yellowgreen;
     }
+    .something-went-wrong-popup{
+      position: fixed;
+      z-index: 40;
+      bottom: 0;
+      left: 0;
+      height: 100vh;
+      width: 100%;
+      background: rgba(0,0,0,0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .something-went-wrong-msg{
+      padding: 15px 30px 25px 20px;
+      border-radius: 10px;
+      background: #fff;
+    }
+    .something-went-wrong-msg h3{
+      color: red;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+    .something-went-wrong-msg span{
+      padding-left: 2px;
+      color: red;
+    }
+    .something-went-wrong-msg .close{
+      float: right;
+      margin-right: -22px;
+      margin-top: -6px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .login-popup .form .pass-show-hide{
+      position: absolute;
+      right: 3rem;
+      margin-top: -2.8rem;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+    .login-popup .form .pass-show-hide:hover{
+      color: gray;
+    }
 
   </style>
 </head>
@@ -353,11 +397,12 @@ session_start();
             <option value="faculty">Faculty</option>
           </select>
           <input type="email" name="email" placeholder="Email" required autocomplete="off">
-          <input type="password" name="pass" placeholder="Password" required>
+          <input type="password" name="pass" placeholder="Password" id="pass" required autocomplete="off">
+          <i class="ri-eye-off-line pass-show-hide eye-closed"></i>
           <button type="submit" name="submit" value="submit">Login</button>
         </form>
       </div>
-      <i class="ri-close-line"></i>
+      <i class="ri-close-line close"></i>
     </div>
     <div class="toast">
       <i class="ri-checkbox-circle-fill checkbox"></i>
@@ -406,24 +451,42 @@ session_start();
   <script>
     var loginBtn = document.querySelector(".login-btn");
     var loginPopup = document.querySelector(".login-popup");
-    var cross = document.querySelector(".login-popup i");
+    var cross = document.querySelector(".login-popup .close");
+    var passEye = document.querySelector(".login-popup .pass-show-hide");
+    var pass = document.querySelector(".login-popup #pass");
     var toast = document.querySelector(".toast");
     var loginPopupState = 0;
     if (loginBtn != null) {
       loginBtn.addEventListener('click', () => {
         if (!loginPopupState) {
           loginPopup.style.right = 0;
+          pass.type = "password";
+          passEye.className = "ri-eye-off-line pass-show-hide eye-closed";
           loginPopupState = 1;
           if(document.documentElement.scrollHeight > 0){
             document.documentElement.scrollTop = 0;
           }
         } else {
           loginPopup.style.right = "-50vw";
+          pass.type = "password";
+          passEye.className = "ri-eye-off-line pass-show-hide eye-closed";
           loginPopupState = 0;
         }
 
       })
     }
+
+    passEye.addEventListener('click', () => {
+      if(passEye.className == "ri-eye-off-line pass-show-hide eye-closed"){
+        pass.type = "text";
+        passEye.className = "ri-eye-fill pass-show-hide eye-open";
+      }else{
+        pass.type = "password";
+        passEye.className = "ri-eye-off-line pass-show-hide eye-closed";
+      }
+
+    })
+
     cross.addEventListener('click', () => {
       loginPopup.style.right = "-50vw";
       loginPopupState = 0;
@@ -483,6 +546,10 @@ session_start();
       loginPopup.style.right = "-50vw";
       loginPopupState = 0;
       document.documentElement.scrollTop = document.documentElement.scrollHeight;
+    }
+
+    function hideErrorPopup(){
+      document.querySelector(".something-went-wrong-popup").style.display='none';
     }
   </script>
   <?php
