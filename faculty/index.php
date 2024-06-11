@@ -180,6 +180,10 @@ if (!isset($_SESSION["faculty"])) {
       margin-bottom: 2rem;
       border-radius: 10px;
       box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+    .box:hover{
+      box-shadow: 1px 1px 6px #666;
     }
     .box h3{
       margin-bottom: 10px;
@@ -257,7 +261,7 @@ if (!isset($_SESSION["faculty"])) {
       <img src="faculty-asset/6334178.webp" alt="" id="faculty-index-img">
       <div class="boxes">
       <?php if($num_of_ungraded_sub > 0){?>
-        <div class="box">
+        <div class="box" onclick="window.location.href='assignment.php'">
           <h3>Assignments</h3>
           <span style="color: yellow"><?php echo $num_of_ungraded_sub; ?> <?php $num_of_ungraded_sub>1?print'assignments':print'assignment' ?> require grading</span>
         </div>

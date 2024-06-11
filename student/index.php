@@ -180,6 +180,10 @@ if (!isset($_SESSION["student"])) {
       margin-bottom: 2rem;
       border-radius: 10px;
       box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+    .box:hover{
+      box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.6);;
     }
     .box h3{
       margin-bottom: 10px;
@@ -309,12 +313,12 @@ if (!isset($_SESSION["student"])) {
       </p>
       <img src="student-asset/5437683.webp" alt="" id="student-index-img">
       <div class="boxes">
-        <div class="box">
+        <div class="box" onclick="window.location.href='attendance.php'">
           <h3>Attendance</h3>
           <span style=" font-size: 18px; font-weight:600; color: <?php $atd_percentile>=75?print'green':print'yellow' ?>;" ><?php echo $atd_percentile; ?>%</span>
         </div>
         <?php if($new_ass_count > 0 or $pending_ass_count > 0){ ?>
-        <div class="box">
+        <div class="box" onclick="window.location.href='assignment.php'">
           <h3>Assignment</h3>
           <ul>
             <?php if($new_ass_count){ ?>
@@ -329,7 +333,7 @@ if (!isset($_SESSION["student"])) {
         </div>
         <?php } ?>
         <?php if(mysqli_num_rows($exam_result)>0){ ?>
-        <div class="box">
+        <div class="box" onclick="window.location.href='exam.php'">
           <h3>Exam</h3>
           <?php if(strtotime($exam_row['exam_date']) > strtotime($today_date)){ ?>
             <span style="color: blue">Starting date: <?php echo date("d-m-Y",strtotime($exam_row['exam_date']));  ?></span>

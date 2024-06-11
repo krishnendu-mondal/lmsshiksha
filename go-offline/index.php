@@ -205,6 +205,7 @@ if (isset($_SESSION['admin'])) {
       margin-top: -2.8rem;
       cursor: pointer;
       font-size: 1.2rem;
+      display: none;
     }
     .form .pass-show-hide:hover{
       color: gray;
@@ -283,6 +284,14 @@ if (isset($_SESSION['admin'])) {
       document.querySelector(".something-went-wrong-popup").style.display='none';
     }
 
+    pass.addEventListener(('input'), ()=>{
+      if(pass.value.length > 0){
+          passEye.style.display="inline-block";
+      }else{
+          passEye.style.display="none";
+      }
+    })
+
     passEye.addEventListener('click', () => {
       if(passEye.className == "ri-eye-off-line pass-show-hide eye-closed"){
         pass.type = "text";
@@ -291,7 +300,6 @@ if (isset($_SESSION['admin'])) {
         pass.type = "password";
         passEye.className = "ri-eye-off-line pass-show-hide eye-closed";
       }
-
     })
   </script>
 

@@ -486,6 +486,7 @@ if (!isset($_SESSION["faculty"])) {
             margin-bottom: -60px;
             cursor: pointer;
             font-size: 1.2rem;
+            display: none;
         }
         .popup5 .pass-show-hide1:hover, .popup5 .pass-show-hide2:hover{
             color: gray;
@@ -722,6 +723,8 @@ if (!isset($_SESSION["faculty"])) {
             passEye1.className = "ri-eye-off-line pass-show-hide1 eye-closed";
             pass2.type = "password";
             passEye2.className = "ri-eye-off-line pass-show-hide2 eye-closed";
+            passEye1.style.display="none";
+            passEye2.style.display="none";
         }
         function delete_post() {
             dp.submit();
@@ -729,6 +732,21 @@ if (!isset($_SESSION["faculty"])) {
         function pass_change_post() {
             pcp.submit();
         }
+
+        pass1.addEventListener(('input'), ()=>{
+            if(pass1.value.length > 0){
+                passEye1.style.display="inline-block";
+            }else{
+                passEye1.style.display="none";
+            }
+        })
+        pass2.addEventListener(('input'), ()=>{
+            if(pass2.value.length > 0){
+                passEye2.style.display="inline-block";
+            }else{
+                passEye2.style.display="none";
+            }
+        })
 
         passEye1.addEventListener('click', () => {
             if(passEye1.className == "ri-eye-off-line pass-show-hide1 eye-closed"){

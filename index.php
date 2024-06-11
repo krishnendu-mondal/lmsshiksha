@@ -141,6 +141,7 @@ session_start();
       border: none;
       box-shadow: 1px 2px 5px gray;
       outline-color: rgb(47, 166, 170);
+      cursor: pointer;
     }
 
     .form input::placeholder {
@@ -350,6 +351,7 @@ session_start();
       margin-top: -2.8rem;
       cursor: pointer;
       font-size: 1.2rem;
+      display: none;
     }
     .login-popup .form .pass-show-hide:hover{
       color: gray;
@@ -475,6 +477,14 @@ session_start();
 
       })
     }
+
+    pass.addEventListener(('input'), ()=>{
+      if(pass.value.length > 0){
+          passEye.style.display="inline-block";
+      }else{
+          passEye.style.display="none";
+      }
+    })
 
     passEye.addEventListener('click', () => {
       if(passEye.className == "ri-eye-off-line pass-show-hide eye-closed"){
