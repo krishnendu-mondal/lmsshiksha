@@ -643,104 +643,117 @@ else{
         $timestamp = date('d-m-Y g:i a');
         $deadline = $_POST["deadline"].' 11:59 pm';
         $deadline = date('d-m-Y g:i a', strtotime($deadline));
+        
+        if(strtotime($timestamp) > strtotime($deadline)){
+            echo "<script>alert('Please select valid deadline!')</script>";
+            
+        }else{
+            if (isset($_FILES['file_assignment'])) {
+                $error = array();
+                $file_name = $_FILES['file_assignment']['name'];
+                $file_size = $_FILES['file_assignment']['size'];
+                $file_tmp = $_FILES['file_assignment']['tmp_name'];
+                $file_type = $_FILES['file_assignment']['type'];
+                //explode--> for converting a string to an array
+                //explode--> explode(separator,string,limit(optional))
+                //end--> the last value
+                //strtolower--> converting the last string to lower case
+                $file_exp = explode('.', $file_name);
+                $file_ext = end($file_exp);
+                $extensions = array("pdf", "docx","txt" );
 
-        if (isset($_FILES['file_assignment'])) {
-            $error = array();
-            $file_name = $_FILES['file_assignment']['name'];
-            $file_size = $_FILES['file_assignment']['size'];
-            $file_tmp = $_FILES['file_assignment']['tmp_name'];
-            $file_type = $_FILES['file_assignment']['type'];
-            //explode--> for converting a string to an array
-            //explode--> explode(separator,string,limit(optional))
-            //end--> the last value
-            //strtolower--> converting the last string to lower case
-            $file_exp = explode('.', $file_name);
-            $file_ext = end($file_exp);
-            $extensions = array("pdf", "docx","txt" );
-
-            //in_array will search the extension was in the $extensions array or not
-            if (in_array($file_ext, $extensions) === false) {
-                $error[] = "Unsupported file type! Choose pdf/word/txt document.";
-            }
-
-            if ($file_size > 716800) {
-                $error[] = "File size too large! Upload file under 700KB.";
-            }
-
-            if (empty($error) == true) {
-                $file_name_new = $faculty_id.$file_name;
-                move_uploaded_file($file_tmp, "../assignments/" . $file_name_new);
-
-                $sql = "INSERT INTO `assignment`(`provider_name`, `provider_dept`, `provider_id`, `subject`, `file_name`, `time`, `deadline`) VALUES ('{$faculty_name}','{$faculty_dept}','{$faculty_id}','{$subject}','{$file_name_new}','{$timestamp}','{$deadline}')";
-                $result = mysqli_query($conn, $sql) or die("Query Failed!");
-                mysqli_close($conn);
-                if ($result) {
-                    echo "<script>showSuccessToast(); setTimeout(()=>{window.location.href='assignment.php'},2000);</script>";
+                //in_array will search the extension was in the $extensions array or not
+                if (in_array($file_ext, $extensions) === false) {
+                    $error[] = "Unsupported file type! Choose pdf/word/txt document.";
                 }
-            } else {
-                echo "<script>alert('$error[0]')</script>";
-                die();
+
+                if ($file_size > 716800) {
+                    $error[] = "File size too large! Upload file under 700KB.";
+                }
+
+                if (empty($error) == true) {
+                    $file_name_new = $faculty_id.$file_name;
+                    move_uploaded_file($file_tmp, "../assignments/" . $file_name_new);
+
+                    $sql = "INSERT INTO `assignment`(`provider_name`, `provider_dept`, `provider_id`, `subject`, `file_name`, `time`, `deadline`) VALUES ('{$faculty_name}','{$faculty_dept}','{$faculty_id}','{$subject}','{$file_name_new}','{$timestamp}','{$deadline}')";
+                    $result = mysqli_query($conn, $sql) or die("Query Failed!");
+                    mysqli_close($conn);
+                    if ($result) {
+                        echo "<script>showSuccessToast(); setTimeout(()=>{window.location.href='assignment.php'},2000);</script>";
+                    }
+                } else {
+                    echo "<script>alert('$error[0]')</script>";
+                    die();
+                }
             }
         }
 
     }
 
     if(isset($_POST['edit_assignment'])){
+
+        date_default_timezone_set("Asia/Kolkata");
+
+        $timestamp = date('d-m-Y g:i a');
         $deadline = $_POST["deadline"].' 11:59 pm';
         $deadline = date('d-m-Y g:i a', strtotime($deadline));
 
-        $sql = "UPDATE `assignment` SET `subject` = '{$_POST['subject']}', `deadline` = '{$deadline}' WHERE `slno` = '{$_POST['slno']}'";
-        $result = mysqli_query($conn, $sql);
-        if($result){
-            echo "<script>showSuccessToast(); setTimeout(()=>{window.location.href='assignment.php'},2000);</script>";
-        }
+        if(strtotime($timestamp) > strtotime($deadline)){
+            echo "<script>alert('Please select valid deadline!')</script>";
 
-        if (!empty($_FILES['file_assignment']['name'])) {
-            $error = array();
-            $file_name = $_FILES['file_assignment']['name'];
-            $file_size = $_FILES['file_assignment']['size'];
-            $file_tmp = $_FILES['file_assignment']['tmp_name'];
-            $file_type = $_FILES['file_assignment']['type'];
-            //explode--> for converting a string to an array
-            //explode--> explode(separator,string,limit(optional))
-            //end--> the last value
-            //strtolower--> converting the last string to lower case
-            $file_exp = explode('.', $file_name);
-            $file_ext = end($file_exp);
-            $extensions = array("pdf", "docx","txt" );
+        }else{
 
-            //in_array will search the extension was in the $extensions array or not
-            if (in_array($file_ext, $extensions) === false) {
-                $error[] = "Unsupported file type! Choose pdf/word/txt document.";
+            $sql = "UPDATE `assignment` SET `subject` = '{$_POST['subject']}', `deadline` = '{$deadline}' WHERE `slno` = '{$_POST['slno']}'";
+            $result = mysqli_query($conn, $sql);
+            if($result){
+                echo "<script>showSuccessToast(); setTimeout(()=>{window.location.href='assignment.php'},2000);</script>";
             }
 
-            if ($file_size > 716800) {
-                $error[] = "File size too large! Upload file under 700KB.";
-            }
+            if (!empty($_FILES['file_assignment']['name'])) {
+                $error = array();
+                $file_name = $_FILES['file_assignment']['name'];
+                $file_size = $_FILES['file_assignment']['size'];
+                $file_tmp = $_FILES['file_assignment']['tmp_name'];
+                $file_type = $_FILES['file_assignment']['type'];
+                //explode--> for converting a string to an array
+                //explode--> explode(separator,string,limit(optional))
+                //end--> the last value
+                //strtolower--> converting the last string to lower case
+                $file_exp = explode('.', $file_name);
+                $file_ext = end($file_exp);
+                $extensions = array("pdf", "docx","txt" );
 
-            if (empty($error) == true) {
-                $sql = "SELECT * FROM `assignment` WHERE `slno` = '{$_POST['slno']}'";
-                $result = mysqli_query($conn, $sql) or die("Query Failed!");
-                $row = mysqli_fetch_assoc($result);
-                unlink("../assignments/".$row['file_name']);
-                
-                $file_name_new = $faculty_id.$file_name;
-                move_uploaded_file($file_tmp, "../assignments/" . $file_name_new);
-
-                $sql = "UPDATE `assignment` SET `file_name` = '{$file_name_new}' WHERE `slno` = '{$_POST['slno']}'";
-                $result = mysqli_query($conn, $sql) or die("Query Failed!");
-                mysqli_close($conn);
-                if ($result) {
-                    echo "<script>showSuccessToast(); setTimeout(()=>{window.location.href='assignment.php'},1000);</script>";
+                //in_array will search the extension was in the $extensions array or not
+                if (in_array($file_ext, $extensions) === false) {
+                    $error[] = "Unsupported file type! Choose pdf/word/txt document.";
                 }
-            } else {
-                echo "<script>alert('$error[0]')</script>";
-                die();
+
+                if ($file_size > 716800) {
+                    $error[] = "File size too large! Upload file under 700KB.";
+                }
+
+                if (empty($error) == true) {
+                    $sql = "SELECT * FROM `assignment` WHERE `slno` = '{$_POST['slno']}'";
+                    $result = mysqli_query($conn, $sql) or die("Query Failed!");
+                    $row = mysqli_fetch_assoc($result);
+                    unlink("../assignments/".$row['file_name']);
+                    
+                    $file_name_new = $faculty_id.$file_name;
+                    move_uploaded_file($file_tmp, "../assignments/" . $file_name_new);
+
+                    $sql = "UPDATE `assignment` SET `file_name` = '{$file_name_new}' WHERE `slno` = '{$_POST['slno']}'";
+                    $result = mysqli_query($conn, $sql) or die("Query Failed!");
+                    mysqli_close($conn);
+                    if ($result) {
+                        echo "<script>showSuccessToast(); setTimeout(()=>{window.location.href='assignment.php'},1000);</script>";
+                    }
+                } else {
+                    echo "<script>alert('$error[0]')</script>";
+                    die();
+                }
             }
         }
     }
-
-
     ?>
 </body>
 

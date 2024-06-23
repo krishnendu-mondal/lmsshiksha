@@ -189,21 +189,21 @@ if (!isset($_SESSION["faculty"])) {
         }
 
         .take-attendance table {
-            border-collapse: collapse;
-            border: 1px solid #dadada;
+            border-collapse: separate;
+            border-spacing: 0;
         }
 
         th,
         td {
             padding: 5px 10px;
+            border: 1px solid #acacac;
         }
 
         .take-attendance,
         .view-attendance {
-            padding: 2rem 3rem 4rem 3rem;
+            padding: 2rem 3rem 0rem 3rem;
             margin-bottom: 2rem;
             border-radius: 10px;
-            /* box-shadow: 1px 1px 5px #aaa; */
         }
 
         .take-attendance form {
@@ -298,6 +298,7 @@ if (!isset($_SESSION["faculty"])) {
 
         .popup-table table {
             border-collapse: separate;
+            border-spacing: 0;
             border: 1px solid #dadada;
             margin-top: 3rem;
         }
@@ -375,24 +376,27 @@ if (!isset($_SESSION["faculty"])) {
                 <hr>
             </div>
 
-            <form action="" method="post">
+            <form action="" method="post" >
+                <div class="table-overflow"style="height: 70vh; overflow-y: scroll; padding: 0 15px 15px 0;">
                 <table id="take-atd-table">
-                    <tr>
-                        <td colspan="3">
-                            <div class="row">
-                                <label for="">Select date(Optional)</label>
-                                &nbsp;&nbsp;
-                                <input type="date" name="selected_date">
-                            </div>
+                    <thead style="position: sticky; top:0; z-index:2; border: 1px solid gray">
+                        <tr>
+                            <td colspan="3" style="background: #fff;">
+                                <div class="row">
+                                    <label for="">Select date(Optional)</label>
+                                    &nbsp;&nbsp;
+                                    <input type="date" name="selected_date">
+                                </div>
 
-                        </td>
-                    </tr>
+                            </td>
+                        </tr>
 
-                    <tr style="background: #222; color: #fff; letter-spacing: .8px;">
-                        <th>Sl. No.</th>
-                        <th>Student name</th>
-                        <th>Attendance</th>
-                    </tr>
+                        <tr style="background: #222; color: #fff; letter-spacing: .8px;">
+                            <th>Sl. No.</th>
+                            <th>Student name</th>
+                            <th>Attendance</th>
+                        </tr>
+                    </thead>
                     <?php
                     require_once("DB.php");
                     $sql = "SELECT * FROM `student` ORDER BY `name` ASC";
@@ -402,14 +406,14 @@ if (!isset($_SESSION["faculty"])) {
                         while ($row = mysqli_fetch_assoc($result)) {
                             $n++;
                             ?>
-                            <tr style="border-bottom: none; background: <?php $n % 2 == 0 ? print '#dadada' : print(""); ?>;">
+                            <tr style="border-bottom: none; background: <?php $n % 2 == 0 ? print '#dfdfdf' : print(""); ?>;">
                                 <td>
                                     <?php echo $n; ?>
                                 </td>
                                 <td>
                                     <?php echo $row['name'] ?>
                                 </td>
-                                <td style="display: flex; justify-content: space-evenly; border: inherit;">
+                                <td style="display: flex; justify-content: space-evenly; border: 1px solid #acacac;">
                                     <div class="row">
                                         <input type="checkbox" id="present" class="present-<?php echo $row['roll'] ?>"
                                             onclick="resetOtherOne('absent-<?php echo $row['roll'] ?>')"
@@ -431,7 +435,7 @@ if (!isset($_SESSION["faculty"])) {
                             </tr>
                         <?php }
                     } ?>
-                </table>
+                </table></div>
                 <div class="buttons" style="display: flex; flex-direction: column; gap: 1rem;">
                     <div class="row"
                         style="display: flex; align-items: center; gap: 5px; background: rgba(0,0,0,0.1); padding: .25rem .4rem; border-radius: 5px; box-shadow: 1px 1px 3px rgba(0,0,0,0.2);">

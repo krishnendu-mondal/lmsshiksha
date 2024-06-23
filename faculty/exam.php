@@ -312,7 +312,7 @@ if (!isset($_SESSION["faculty"])) {
         .toast {
             position: absolute;
             height: 2.5rem;
-            top: 1rem;
+            top: 0;
             right: -30vw;
             border-radius: 8px;
             box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
@@ -542,11 +542,11 @@ if (!isset($_SESSION["faculty"])) {
         function showSuccessToast(){
             let toast = document.querySelector('.toast');
             setTimeout(()=>{
-                toast.style.right = '1.5vw';
+                toast.style.right = '3vw';
             },300)
             setTimeout(()=>{
                 toast.style.right = '-30vw';
-            },1500)
+            },1700)
         }
     </script>
 

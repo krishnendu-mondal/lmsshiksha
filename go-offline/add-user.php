@@ -167,44 +167,46 @@ if (!isset($_SESSION["admin"])) {
       outline-color: lightseagreen;
     }
     .form{
-      min-width: 27%;
+      position: relative;
+      padding: 2rem;
+      min-width: 25%;
     }
     .form form{
-      padding: 2rem 4rem 2rem 2rem;
+      position: relative;
+      padding: 2rem;
       border-radius: 10px;
       box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
-      display: flex;
-      flex-direction: column;
       background: #fff;
-      scale: .9;
+      display: grid;
+      gap: 1rem;
     }
 
     .form form h1 {
-      padding-bottom: 2rem;
+      padding-bottom: 1rem;
     }
 
     .form form input {
-      padding: .8rem 1rem;
-      width: 100%;
+      position: relative;
+      padding: .65rem 1rem;
       border-radius: 10px;
       box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
       font-size: .9rem;
-      margin-bottom: 20px;
       outline-color: lightseagreen;
     }
 
     ::placeholder {
-      font-size: 16px;
+      font-size: 15px;
       letter-spacing: .5px;
       color: #333;
     }
 
     .form button {
+      width: 100%;
       border-radius: 10px;
       box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
       padding: .6rem 1rem;
-      font-size: 1.1rem;
-      font-weight: 600;
+      font-size: 16px;
+      font-weight: 500;
       color: #fff;
       letter-spacing: .04rem;
       box-shadow: 1px 2px 5px gray;
@@ -212,7 +214,6 @@ if (!isset($_SESSION["admin"])) {
       border: none;
       margin-top: 10px;
       margin-bottom: 10px;
-      width: 112%;
       background: rgba(47, 166, 170, 0.814);
       transition: all ease-in-out 100ms;
     }
@@ -283,6 +284,25 @@ if (!isset($_SESSION["admin"])) {
       background: #ddd;
       color: lightseagreen;
     }
+
+    .pass-field{
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    form input[name="pass"]{
+      width: 100%;
+      padding-right: 2rem;
+    }
+    .eye{
+      position: absolute;
+      right: 10px;
+      cursor: pointer;
+      display: none;
+    }
+    .eye:hover{
+      color: gray;
+    }
   </style>
 </head>
 
@@ -346,7 +366,13 @@ if (!isset($_SESSION["admin"])) {
           <input type="email" name="email" placeholder="Email" required autocomplete="off">
           <input type="text" name="dept" placeholder="Department" required autocomplete="off">
           <input type="text" name="roll" placeholder="Roll number" required autocomplete="off">
-          <input type="password" name="pass" placeholder="Password" required>
+
+          <div class="pass-field">
+            <input type="password" name="pass" id="student-pass" placeholder="Password" required autocomplete="off">
+            <i class="ri-eye-off-line student-eye eye"></i>
+          </div>
+          
+
           <button type="submit" name="submit" value="submit">Submit</button>
         </form>
       </div>
@@ -358,7 +384,12 @@ if (!isset($_SESSION["admin"])) {
           <input type="email" name="email" placeholder="Email" required autocomplete="off">
           <input type="text" name="dept" placeholder="Department" required autocomplete="off">
           <input type="text" name="f_id" placeholder="Faculty ID" required autocomplete="off">
-          <input type="password" name="pass" placeholder="Password" required>
+
+          <div class="pass-field">
+            <input type="password" name="pass" id="faculty-pass" placeholder="Password" required autocomplete="off">
+            <i class="ri-eye-off-line faculty-eye eye"></i>
+          </div>
+
           <button type="submit" name="submit" value="submit">Submit</button>
         </form>
       </div>
@@ -369,7 +400,12 @@ if (!isset($_SESSION["admin"])) {
           <input type="text" name="name" placeholder="Name" required autocomplete="off">
           <input type="email" name="email" placeholder="Email" required autocomplete="off">
           <input type="text" name="user_id" placeholder="User ID" required autocomplete="off">
-          <input type="password" name="pass" placeholder="Password" required>
+
+          <div class="pass-field">
+            <input type="password" name="pass" id="admin-pass" placeholder="Password" required autocomplete="off">
+            <i class="ri-eye-off-line admin-eye eye"></i>
+          </div>
+
           <button type="submit" name="submit" value="submit">Submit</button>
         </form>
       </div>
@@ -390,6 +426,14 @@ if (!isset($_SESSION["admin"])) {
     var admin = document.querySelector('.form-admin');
     const event = new Event('input');
 
+    var studentEye = document.querySelector(".student-eye");
+    var facultyEye = document.querySelector(".faculty-eye");
+    var adminEye = document.querySelector(".admin-eye");
+
+    var studentPass = document.querySelector("#student-pass");
+    var facultyPass = document.querySelector("#faculty-pass");
+    var adminPass = document.querySelector("#admin-pass");
+
     student.style.top = '3rem';
     var user_value = user.value;
 
@@ -409,6 +453,63 @@ if (!isset($_SESSION["admin"])) {
         student.style.top = '-50rem';
         faculty.style.right = '-50rem';
         admin.style.bottom= '5rem';
+      }
+
+    })
+
+    studentPass.addEventListener(('input'), ()=>{
+      if(studentPass.value.length > 0){
+          studentEye.style.display="inline-block";
+      }else{
+          studentEye.style.display="none";
+      }
+    })
+
+    facultyPass.addEventListener(('input'), ()=>{
+      if(facultyPass.value.length > 0){
+          facultyEye.style.display="inline-block";
+      }else{
+          facultyEye.style.display="none";
+      }
+    })
+
+    adminPass.addEventListener(('input'), ()=>{
+      if(adminPass.value.length > 0){
+          adminEye.style.display="inline-block";
+      }else{
+          adminEye.style.display="none";
+      }
+    })
+
+    studentEye.addEventListener('click', () => {
+      if(studentEye.className == "ri-eye-off-line student-eye eye"){
+        studentPass.type = "text";
+        studentEye.className = "ri-eye-fill student-eye eye";
+      }else{
+        studentPass.type = "password";
+        studentEye.className = "ri-eye-off-line student-eye eye";
+      }
+
+    })
+
+    facultyEye.addEventListener('click', () => {
+      if(facultyEye.className == "ri-eye-off-line faculty-eye eye"){
+        facultyPass.type = "text";
+        facultyEye.className = "ri-eye-fill faculty-eye eye";
+      }else{
+        facultyPass.type = "password";
+        facultyEye.className = "ri-eye-off-line faculty-eye eye";
+      }
+
+    })
+
+    adminEye.addEventListener('click', () => {
+      if(adminEye.className == "ri-eye-off-line admin-eye eye"){
+        adminPass.type = "text";
+        adminEye.className = "ri-eye-fill admin-eye eye";
+      }else{
+        adminPass.type = "password";
+        adminEye.className = "ri-eye-off-line admin-eye eye";
       }
 
     })

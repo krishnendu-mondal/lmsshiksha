@@ -445,7 +445,7 @@ session_start();
     <hr>
     <div class="section-copyright">
       <p>
-        @ 2024 Lmsshiksha, All rights reserved.
+        &copy; 2024 Lmsshiksha, All rights reserved.
       </p>
     </div>
   </div>

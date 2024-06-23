@@ -285,7 +285,7 @@ if (!isset ($_SESSION["admin"])) {
     </div>
 
     <div class="admin-info">
-      <span>Welcome,
+      <span>Welcome Back,
         <?php echo $_SESSION["admin_name"] ?>
       </span>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit repellendus mollitia consectetur dolore iste,
@@ -378,6 +378,8 @@ if (!isset ($_SESSION["admin"])) {
         if($result){
           echo "<script>showSuccessToast();</script>";
         }
+      }else{
+        echo"<script>alert('There is no assignment to delete.')</script>";
       }
      
     }
@@ -397,6 +399,8 @@ if (!isset ($_SESSION["admin"])) {
         if($result){
           echo "<script>showSuccessToast();</script>";
         }
+      }else{
+        echo"<script>alert('There is no submission to delete.')</script>";
       }
     }
   }
