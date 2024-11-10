@@ -160,14 +160,14 @@ if (!isset($_SESSION["admin"])) {
         #fetch-dept-schedule label{
             margin-bottom: 5px;
         }
-        #fetch-dept-schedule input{
+        #fetch-dept-schedule select{
             box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
             border-radius: 10px;
             padding: .8rem 1rem;
             width: 80%;
             border: none;
             margin-bottom: .5rem;
-            outline: none;
+            outline-color: cornflowerblue;
         }
         #fetch-dept-schedule button{
             box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
@@ -371,11 +371,29 @@ if (!isset($_SESSION["admin"])) {
             <form action="exam.php" method="post" id="fetch-dept-schedule">
                 <h2>Verify and Lock exam schedule</h2>
                 <div class="row">
-                    <label for="dept">Enter department to get schedule</label>
-                    <input type="text" name="dept" id="dept" placeholder="Department" required autocomplete="off">
+                    <label for="dept">Select department to get schedule</label>
+                    <!-- <input type="text" name="dept" id="dept" placeholder="Department" required autocomplete="off"> -->
+                    <select name="dept" id="dept" required autocomplete="off">
+                        <option value="none" style="color: gray;">Select department</option>
+                        <?php
+                            require_once("DB.php");
+                            $sql = "SELECT DISTINCT `dept` FROM `exam`";
+                            $result =  mysqli_query($conn, $sql);
+                            // echo"<script>alert('$result')</script>";
+                            // while(mysqli_fetch_assoc($result)){
+                            // $res = mysqli_fetch_assoc($result);
+                            
+                            while($row = mysqli_fetch_assoc($result)){
+                        ?>
+                            <option value="<?php echo $row['dept'] ?>"> <?php echo $row['dept'] ?> </option>
+
+                        <?php
+                            }
+                        ?>
+                        
+                    </select>
                 </div>
-                <button type="submit" name="fetch_exam_schedule" value="fetch" id="fetch-exam-schedule">Submit</button>
-                
+                <button type="button" name="fetch_exam_schedule" value="fetch" id="fetch-exam-schedule">Submit</button>
             </form>
             <?php
                 if(isset($_POST['fetch_exam_schedule'])){
@@ -383,12 +401,13 @@ if (!isset($_SESSION["admin"])) {
                     $dept = mysqli_real_escape_string($conn, $_POST['dept']);
                     $sql = "SELECT * FROM `exam` WHERE `dept` = '{$dept}' ORDER BY `exam_date` ASC,`exam_start_time`";
                     $result = mysqli_query($conn, $sql) or die("Query Failed!");
+                    echo"<script> document.getElementById('dept').value = '".$dept."'  </script>";
                     if(mysqli_num_rows($result)>0){
                         
             ?>
             
             <table border="1">
-                <th style="background: lightseagreen; color: #333;" colspan="6"><h2>Exam schedule</h2></th>
+                <th style="background: lightseagreen; color: #333;" colspan="6"><h2>Exam schedule of <?php echo $dept ?> department</h2></th>
                 <tr  style="background: #222; color: #ddd; letter-spacing: 0.5px;">
                     <th>Sl.No.</th>
                     <th>Subject</th>
@@ -470,7 +489,6 @@ if (!isset($_SESSION["admin"])) {
         function hidePopup(){
            popup.style.display = 'none';
         }
-
         var editPopup = document.getElementById('edit-popup');
         function editSchedule(slno, dept, subject, date, startTime, endTime){
             editPopup.style.display = 'flex';
@@ -508,12 +526,22 @@ if (!isset($_SESSION["admin"])) {
                 document.getElementById('delete-whole-schedule').submit();
             }
         }
-
         function setDeptField(dept_n){
             document.getElementById('dept').value = dept_n;
+            document.getElementById('fetch-exam-schedule').type = 'submit';
             document.getElementById('fetch-exam-schedule').click();
         }
-        
+
+        var dp = document.getElementById('dept');
+        var fetch_btn = document.getElementById('fetch-exam-schedule');
+    
+        dp.addEventListener('input',()=>{
+            if(dp.value !== 'none'){
+                fetch_btn.type = 'submit';
+            }else{
+                fetch_btn.type = 'button';
+            }
+        })
     </script>
      <?php
         if(isset($_POST['save_changed_exam_schedule'])){
